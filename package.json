@@ -1,0 +1,55 @@
+{
+  "name": "file-uploader",
+  "version": "1.0.0",
+  "description": "File uploader",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --watch src/server --exec babel-node -- src/server/index.js",
+    "start:prod": "SET NODE_ENV=production & npm start",
+    "build": "webpack --config webpack/webpack.dev.js",
+    "build:prod": "webpack --config webpack/webpack.prod.js",
+    "lint": "eslint src/**",
+    "lint:fix": "eslint src/** --fix",
+    "test": "jest"
+  },
+  "keywords": [
+    "express",
+    "react",
+    "material-ui"
+  ],
+  "author": "Mariusz Baran",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.5",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "enzyme": "^3.6.0",
+    "enzyme-adapter-react-16": "^1.5.0",
+    "eslint": "^5.6.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.11.1",
+    "jest": "^23.6.0",
+    "nodemon": "^1.18.3",
+    "webpack": "^4.16.4",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-middleware": "^3.1.3",
+    "webpack-merge": "^4.1.4"
+  },
+  "dependencies": {
+    "@material-ui/core": "^3.1.0",
+    "express": "^4.16.3",
+    "helmet": "^3.13.0",
+    "pug": "^2.0.3",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mariusz-ba/file-uploader.git"
+  }
+}
