@@ -3,7 +3,10 @@ module.exports = {
   "rules": {
     "linebreak-style": 0,
     "react/jsx-one-expression-per-line": "none",
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
+    "react/forbid-prop-types": false,
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+    "no-plusplus": ["error", {"allowForLoopAfterthoughts": true}],
+    "no-underscore-dangle": ["error", {"allow": ["__REDUX_DEVTOOLS_EXTENSION__"] }]
   },
   "env": {
     "browser": true,
@@ -13,4 +16,5 @@ module.exports = {
   "globals": {
     "document": false
   },
+  "parser": "babel-eslint",
 };
