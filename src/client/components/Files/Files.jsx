@@ -1,22 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import List from '@material-ui/core/List';
+import File from './components/File';
 
 const propTypes = {
-  files: PropTypes.arrayOf(PropTypes.shape({
-    fullname: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    size: PropTypes.number.isRequired,
-    type: PropTypes.string.isRequired,
-    directory: PropTypes.bool.isRequired,
-  })).isRequired,
+  files: PropTypes.arrayOf(File.propTypes.file).isRequired,
+  onDownload: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
-const Files = ({ files }) => (
-  <ul>
+const Files = ({ files, onDelete, onDownload }) => (
+  <List>
     {files.map(file => (
-      <li key={file.fullname}>{file.name}</li>
+      <File
+        key={file.fullname}
+        file={file}
+        onDownload={onDownload}
+        onDelete={onDelete}
+      />
     ))}
-  </ul>
+  </List>
 );
 
 Files.propTypes = propTypes;
