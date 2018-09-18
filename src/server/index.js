@@ -4,6 +4,11 @@ import helmet from 'helmet';
 import path from 'path';
 import wds from './wds';
 
+import { storagePath } from './config';
+
+// Controllers
+import { FilesController } from './routes/files';
+
 const app = express();
 wds(app);
 
@@ -16,6 +21,11 @@ app.set('view engine', 'pug');
 // Middleware
 app.use(helmet());
 app.use(express.static(path.join(__dirname, '../../dist')));
+app.use('/storage', express.static(storagePath));
+
+
+// API
+app.use('/api/v1/files', FilesController);
 
 // Application
 app.get('*', (req, res) => {
