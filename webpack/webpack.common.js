@@ -20,6 +20,9 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx'],
+    alias: {
+      '@modules': path.resolve(__dirname, '../src/client/modules'),
+    }
   }
 }
