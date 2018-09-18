@@ -32,8 +32,7 @@ export const receiveFiles = (files = []) => ({
 export const fetchFiles = (path = '', filter = {}) => async (dispatch) => {
   dispatch(requestFiles(path, filter));
   try {
-    const res = await API.getFiles({ path, filter });
-    const files = res.data;
+    const files = await API.getFiles({ path, filter });
     dispatch(receiveFiles(files));
   } catch (e) {
     dispatch(setErrors(e.response.data));
@@ -58,10 +57,18 @@ export const uploadSuccess = (path = '', files = []) => ({
 });
 
 export const uploadFiles = (path = '', files = []) => async (dispatch) => {
+  // Create Form Data
+  const data = new FormData();
+
+  for(let i = 0; i < files.length; i++) {
+    const filename = files[i].name;
+    data.append(filename, files[i]);
+  }
+
   dispatch(uploadStart(path, files));
   try {
-    await API.uploadFiles({ path, files });
-    dispatch(uploadSuccess(path, files));
+    const uploaded = await API.uploadFiles({ path, files: data });
+    dispatch(uploadSuccess(path, uploaded));
   } catch (e) {
     dispatch(setErrors(e.response.data));
   }

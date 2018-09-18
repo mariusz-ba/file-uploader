@@ -3,6 +3,7 @@ import express from 'express';
 import helmet from 'helmet';
 import path from 'path';
 import wds from './wds';
+import fileUpload from 'express-fileupload';
 
 import { storagePath } from './config';
 
@@ -20,6 +21,7 @@ app.set('view engine', 'pug');
 
 // Middleware
 app.use(helmet());
+app.use(fileUpload());
 app.use(express.static(path.join(__dirname, '../../dist')));
 app.use('/storage', express.static(storagePath));
 

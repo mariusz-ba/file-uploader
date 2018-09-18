@@ -30,7 +30,14 @@ export default function reducer(state = INITIAL_STATE, action) {
     case TYPES.UPLOAD_START:
       return { ...state, isUploading: true };
     case TYPES.UPLOAD_SUCCESS:
-      return { ...state, isUploading: false };
+      return {
+        ...state,
+        isUploading: false,
+        files: [
+          ...state.files,
+          ...payload.files
+        ]
+      };
     case TYPES.SET_ERRORS:
       return {
         ...state,

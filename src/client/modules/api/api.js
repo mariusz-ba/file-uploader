@@ -6,6 +6,18 @@ export default class API {
   }
 
   async getFiles({ path, filter }) {
-    return axios.get(`${this.url}/files`, { path, filter });
+    const res = await axios.get(`${this.url}/files`, { path, filter });
+    return res.data;
+  }
+
+  async uploadFiles({ path, files }) {
+    const config = {
+      onUploadProgress: function(progressEvent) {
+        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        // TODO: pass it as a callback
+      }
+    }
+    const res = await axios.post(`${this.url}/files`, files, config);
+    return res.data;
   }
 }

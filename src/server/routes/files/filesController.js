@@ -31,18 +31,29 @@ router.get(
 
 router.post(
   '/',
-  (req, res) => {
-    let data = '';
+  async (req, res) => {
+    if(!req.files)
+      return res.status(400).send('No files were uploaded.');
+    
+    const { files } = req;
+    const result = [];
 
-    req.on('data', (chunk) => {
-      data += chunk;
-    });
+    for(const key in files) {
+      const file = files[key];
+      const filePath = path.resolve(storagePath, file.name);
+      await file.mv(filePath);
+      const stats = fs.statSync(filePath);
+      const pattern = /(\w+)\.(.*)/;
+      result.push({
+        fullname: file.name,
+        name: file.name.match(pattern)[1],
+        type: file.name.match(pattern)[2],
+        directory: stats.isDirectory() ? true : false,
+        size: stats.size,
+      })
+    }
 
-    req.on('end', () => {
-      console.log('File uploaded');
-      res.writeHead(200);
-      res.end();
-    })
+    res.status(200).json(result);
   }
 )
 
