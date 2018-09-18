@@ -29,6 +29,14 @@ router.get(
   }
 );
 
+router.get(
+  '/download/:filename',
+  (req, res) => {
+    const file = path.resolve(storagePath, req.params.filename);
+    res.download(file);
+  }
+)
+
 router.post(
   '/',
   async (req, res) => {
@@ -54,6 +62,22 @@ router.post(
     }
 
     res.status(200).json(result);
+  }
+)
+
+router.delete(
+  '/:filename',
+  async (req, res) => {
+    try {
+      const file = path.resolve(storagePath, req.params.filename);
+      const stats = fs.statSync(file);
+      await fs.unlink(file);
+      res.status(200).json({
+        fullname: req.params.filename,
+      });
+    } catch (e) {
+      res.status(400).send('Bad request');
+    }
   }
 )
 

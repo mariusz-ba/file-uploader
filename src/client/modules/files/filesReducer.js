@@ -38,6 +38,23 @@ export default function reducer(state = INITIAL_STATE, action) {
           ...payload.files
         ]
       };
+    case TYPES.DELETE_SUCCESS:
+      let index = undefined;
+      for(let i = 0; i < state.files.length; i++) {
+        if(state.files[i].fullname === payload) {
+          index = i;
+          break;
+        }
+      }
+      if(index) 
+        return {
+          ...state,
+          files: [
+            ...state.files.slice(0, index),
+            ...state.files.slice(index + 1),
+          ],
+        };
+      return state;
     case TYPES.SET_ERRORS:
       return {
         ...state,

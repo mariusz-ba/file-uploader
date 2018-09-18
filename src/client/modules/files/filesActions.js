@@ -7,6 +7,7 @@ export const TYPES = {
   RECEIVE_FILES: 'files/RECEIVE_FILES',
   UPLOAD_START: 'files/UPLOAD_START',
   UPLOAD_SUCCESS: 'files/UPLOAD_SUCCESS',
+  DELETE_SUCCESS: 'files/DELETE_SUCCESS',
   SET_ERRORS: 'files/SET_ERRORS',
 };
 
@@ -69,6 +70,21 @@ export const uploadFiles = (path = '', files = []) => async (dispatch) => {
   try {
     const uploaded = await API.uploadFiles({ path, files: data });
     dispatch(uploadSuccess(path, uploaded));
+  } catch (e) {
+    dispatch(setErrors(e.response.data));
+  }
+};
+
+// Deleting files
+export const deleteFileSuccess = (filename = '') => ({
+  type: TYPES.DELETE_SUCCESS,
+  payload: filename,
+});
+
+export const deleteFile = (filename = '') => async (dispatch) => {
+  try {
+    const deleted = await API.deleteFile({ filename });
+    dispatch(deleteFileSuccess(deleted.fullname));
   } catch (e) {
     dispatch(setErrors(e.response.data));
   }

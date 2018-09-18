@@ -20,4 +20,18 @@ export default class API {
     const res = await axios.post(`${this.url}/files`, files, config);
     return res.data;
   }
+
+  async downloadFile({ filename }) {
+    return axios.get(
+      `${this.url}/files/download/${filename}`,
+      {
+        responseType: 'stream',
+      }
+    );
+  }
+
+  async deleteFile({ filename }) {
+    const res = await axios.delete(`${this.url}/files/${filename}`);
+    return res.data;
+  }
 }
