@@ -1,14 +1,13 @@
 import React from 'react';
-import {
-  withStyles,
-  MuiThemeProvider,
-} from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-
+import { withStyles, MuiThemeProvider } from '@material-ui/core/styles';
 import { light } from './themes';
+
+import Navbar from './components/Navbar';
+import Files from './components/Files';
+import { Actions as FilesActions } from './modules/files';
 
 const styles = theme => ({
   '@global': {
@@ -18,16 +17,30 @@ const styles = theme => ({
   },
 });
 
-const App = () => (
-  <MuiThemeProvider theme={light}>
-    <AppBar position="static" color="primary">
-      <Toolbar>
-        <Typography variant="title" color="inherit">
-          Files
-        </Typography>
-      </Toolbar>
-    </AppBar>
-  </MuiThemeProvider>
-);
+class App extends React.Component {
+  componentDidMount() {
+    const { fetchFiles } = this.props;
+    fetchFiles();
+  }
 
-export default withStyles(styles)(App);
+  render() {
+    return (
+      <MuiThemeProvider theme={light}>
+        <Navbar />
+        <Files />
+      </MuiThemeProvider>
+    );
+  }
+}
+
+App.propTypes = {
+  fetchFiles: PropTypes.func.isRequired,
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchFiles: (path = '', filter = {}) => { dispatch(FilesActions.fetchFiles(path, filter)); },
+  };
+}
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(App));
